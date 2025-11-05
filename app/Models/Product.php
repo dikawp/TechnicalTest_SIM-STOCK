@@ -16,4 +16,9 @@ class Product extends Model
         'current_stock',
         'image',
     ];
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
 }

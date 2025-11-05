@@ -12,9 +12,10 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import productsRoute from '@/routes/products';
+import stockRoute from '@/routes/stock';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Package } from 'lucide-react';
+import { BookOpen, ArrowRightLeft, LayoutGrid, Package } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -27,6 +28,11 @@ const mainNavItems: NavItem[] = [
         title: 'Produk',
         href: productsRoute.index(),
         icon: Package,
+    },
+    {
+        title: 'Manajemen Stok',
+        href: stockRoute.index(),
+        icon: ArrowRightLeft,
     },
 ];
 
