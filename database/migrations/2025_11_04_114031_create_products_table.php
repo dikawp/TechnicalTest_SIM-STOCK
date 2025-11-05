@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku')->unique();
             $table->integer('current_stock')->default(0);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

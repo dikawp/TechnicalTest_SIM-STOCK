@@ -1,25 +1,34 @@
-// resources/js/Pages/Products.tsx
-
 import AppLayout from '@/layouts/app-layout';
-import productsRoute from '@/routes/products'; // Kita ganti nama import agar tidak bentrok
+import productsRoute from '@/routes/products';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react'; // <-- TAMBAHKAN usePage
+import { Head, usePage } from '@inertiajs/react';
+import { CreateModal } from './products/CreateModal';
+import { EditModal } from './products/EditModal';
+import { DeleteDialog } from './products/DeleteDialog';
 
-// Definisikan tipe data untuk satu produk
+// UI Components
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { MoreHorizontal } from 'lucide-react';
+
+// === Tipe data ===
 type Product = {
     id: number;
     name: string;
     sku: string;
     current_stock: number;
+    image_url: string | null;
 };
 
-// Definisikan tipe untuk props yang kita terima dari controller
 type PageProps = {
     products: Product[];
-    // tambahkan props lain jika ada (misal: auth)
 };
 
-// Breadcrumbs tetap sama
+// === Breadcrumbs ===
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Products',
@@ -27,47 +36,94 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+// === KOMPONEN UTAMA ===
 export default function Products() {
-    // Ambil prop 'products' yang dikirim dari ProductController
     const { products } = usePage<PageProps>().props;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Produk" />
+            <div className="flex flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="min-h-[50vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">
+                            Daftar Produk
+                        </h2>
+                        <CreateModal />
+                    </div>
 
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="relative min-h-[50vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
-
-                    {/* Judul Halaman */}
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                        Daftar Produk
-                    </h2>
-
-                    {/* TODO: Tambahkan tombol "Tambah Produk" di sini nanti */}
-
-                    {/* Daftar Produk */}
-                    <div className="mt-6">
-                        {/* Kita buat tabel sederhana */}
+                    <div className="mt-6 overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                             <thead className="bg-gray-50 dark:bg-neutral-800">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Nama</th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">SKU</th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Stok Saat Ini</th>
+                                    {['Gambar', 'Nama', 'SKU', 'Stok Saat Ini', 'Aksi'].map((title, i) => (
+                                        <th
+                                            key={i}
+                                            className={`px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400 ${title === 'Aksi' ? 'text-right' : 'text-left'
+                                                }`}
+                                        >
+                                            {title}
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
+
                             <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-neutral-900">
                                 {products.length > 0 ? (
                                     products.map((product) => (
                                         <tr key={product.id}>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{product.name}</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{product.sku}</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{product.current_stock}</td>
+                                            {/* Gambar Produk */}
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
+                                                {product.image_url ? (
+                                                    <img
+                                                        src={product.image_url}
+                                                        alt={product.name}
+                                                        className="h-12 w-12 object-cover rounded-md"
+                                                    />
+                                                ) : (
+                                                    <span className="text-gray-400">Tidak ada gambar</span>
+                                                )}
+                                            </td>
+
+                                            {/* Nama */}
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                                {product.name}
+                                            </td>
+
+                                            {/* SKU */}
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                                {product.sku}
+                                            </td>
+
+                                            {/* Stok */}
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                                                {product.current_stock}
+                                            </td>
+
+                                            {/* Aksi */}
+                                            <td className="whitespace-nowrap px-6 py-4 text-right text-sm">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <span className="sr-only">Buka menu</span>
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+
+                                                    <DropdownMenuContent align="end">
+                                                        <EditModal product={product} />
+                                                        <DeleteDialog product={product} />
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={3} className="whitespace-nowrap px-6 py-4 text-center text-sm text-gray-500">
+                                        <td
+                                            colSpan={5}
+                                            className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                                        >
                                             Belum ada data produk.
                                         </td>
                                     </tr>
