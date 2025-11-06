@@ -12,10 +12,24 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import productsRoute from '@/routes/products';
+import stockRoute from '@/routes/stock';
+import usersRoute from '@/routes/users';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Package } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { ArrowRightLeft, LayoutGrid, Package, Users } from 'lucide-react';
 import AppLogo from './app-logo';
+
+type User = {
+    id: number;
+    name: string;
+    email: string;
+    role: 1 | 0;
+};
+
+type PageProps = {
+    auth: { user: User };
+};
+
 
 const mainNavItems: NavItem[] = [
     {
@@ -28,12 +42,32 @@ const mainNavItems: NavItem[] = [
         href: productsRoute.index(),
         icon: Package,
     },
+    {
+        title: 'Manajemen Stok',
+        href: stockRoute.index(),
+        icon: ArrowRightLeft,
+    },
+    {
+        title: 'Kelola User',
+        href: usersRoute.index(),
+        icon: Users,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage<PageProps>().props;
+
+    const filteredNavItems = mainNavItems.filter(item => {
+        const adminOnlyItems = ['Produk', 'Kelola User'];
+        if (adminOnlyItems.includes(item.title)) {
+            return auth.user.role === 1;
+        }
+        return true;
+    });
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -49,7 +83,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
