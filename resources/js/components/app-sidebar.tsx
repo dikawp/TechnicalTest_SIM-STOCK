@@ -14,9 +14,22 @@ import { dashboard } from '@/routes';
 import productsRoute from '@/routes/products';
 import stockRoute from '@/routes/stock';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, ArrowRightLeft, LayoutGrid, Package } from 'lucide-react';
 import AppLogo from './app-logo';
+
+type User = {
+    id: number;
+    name: string;
+    email: string;
+    role: 1 | 0;
+};
+
+type PageProps = {
+    auth: { user: User };
+    // tambahkan [key: string]: unknown; jika TypeScript error
+};
+
 
 const mainNavItems: NavItem[] = [
     {
@@ -40,6 +53,15 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage<PageProps>().props;
+
+    const filteredNavItems = mainNavItems.filter(item => {
+        if (item.title === 'Produk') {
+            return auth.user.role === 1;
+        }
+        return true;
+    });
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -55,7 +77,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

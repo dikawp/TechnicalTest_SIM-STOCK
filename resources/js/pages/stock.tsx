@@ -14,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputError } from '@/components/ui/input-error';
 
-// --- Definisikan Tipe Lokal ---
 type Product = {
     id: number;
     name: string;
@@ -54,7 +53,7 @@ export default function Stock() {
         type: 'in' as 'in' | 'out',
         quantity: 1,
         notes: '',
-        general: null, // Untuk error 'general'
+        general: null,
     });
 
     const submitStock: FormEventHandler = (e) => {

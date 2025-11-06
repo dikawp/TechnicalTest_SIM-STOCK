@@ -93,7 +93,7 @@ export default function Dashboard() {
             </div>
 
             {/* Card Grafik */}
-            <div className="mt-6 p-4">
+            <div className="p-4">
                 <Card>
                     <CardHeader>
                         <CardTitle>Pergerakan Stok (7 Hari Terakhir)</CardTitle>
