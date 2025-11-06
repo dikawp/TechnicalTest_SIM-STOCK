@@ -16,14 +16,16 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Products
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
-    Route::put('/products/{product}', [ProductController::class, 'update']);
-    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
-
-    // Stock Movements
+    // STOCK MOVEMENTS (Admin & Staff)
     Route::get('/stock-movements', [StockMovementController::class, 'index']);
     Route::post('/stock-movements', [StockMovementController::class, 'store']);
+
+    // Product Management (Admin Only)
+    Route::middleware('role:1')->group(function () {
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::get('/products/{product}', [ProductController::class, 'show']);
+        Route::put('/products/{product}', [ProductController::class, 'update']);
+        Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+    });
 });
