@@ -60,3 +60,8 @@ php artisan wayfinder:generate
 ```bash
 composer run dev
 ```
+
+### TAMBAHAN: Buka route berikut untuk melihat dokumentasi API
+```bash
+http://localhost:8000/docs/api
+```
