@@ -64,7 +64,7 @@ php artisan wayfinder:generate
 composer run dev
 ```
 
-### TAMBAHAN: Buka route berikut untuk melihat dokumentasi API (Build By Laravel Scrumble)
+### TAMBAHAN: Route berikut untuk melihat dokumentasi API (Build By Laravel Scrumble)
 ```bash
 http://localhost:8000/docs/api
 ```
