@@ -1,4 +1,6 @@
 # Technical Test - Simulasi Manajemen Stok (SIM-STOCK)
+#### *Atas Nama: Ramadika Wijaya
+---
 
 Ini adalah aplikasi web untuk *technical test*:
 * **Backend:** Laravel 12 (sebagai API)
@@ -6,6 +8,7 @@ Ini adalah aplikasi web untuk *technical test*:
 * **Database:** MySQL
 * **Connector:** Inertia.js
 * **Auth:** Laravel Fortify
+* **API Auth:** Laravel Sanctum
 * **UI:** Tailwind CSS & Lucide Icons
 * **Routing Frontend:** Wayfinder (Type-safe routes)
 
