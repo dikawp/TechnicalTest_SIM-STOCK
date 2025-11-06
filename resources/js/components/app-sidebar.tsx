@@ -13,9 +13,10 @@ import {
 import { dashboard } from '@/routes';
 import productsRoute from '@/routes/products';
 import stockRoute from '@/routes/stock';
+import usersRoute from '@/routes/users';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, ArrowRightLeft, LayoutGrid, Package } from 'lucide-react';
+import { ArrowRightLeft, LayoutGrid, Package, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 type User = {
@@ -27,7 +28,6 @@ type User = {
 
 type PageProps = {
     auth: { user: User };
-    // tambahkan [key: string]: unknown; jika TypeScript error
 };
 
 
@@ -47,6 +47,11 @@ const mainNavItems: NavItem[] = [
         href: stockRoute.index(),
         icon: ArrowRightLeft,
     },
+    {
+        title: 'Kelola User',
+        href: usersRoute.index(),
+        icon: Users,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -56,7 +61,8 @@ export function AppSidebar() {
     const { auth } = usePage<PageProps>().props;
 
     const filteredNavItems = mainNavItems.filter(item => {
-        if (item.title === 'Produk') {
+        const adminOnlyItems = ['Produk', 'Kelola User'];
+        if (adminOnlyItems.includes(item.title)) {
             return auth.user.role === 1;
         }
         return true;

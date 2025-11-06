@@ -14,6 +14,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputError } from '@/components/ui/input-error';
 
+// Impor komponen list baru kita
+import { MovementList } from './stocks/StockList';
+
+// --- Tipe Data ---
 type Product = {
     id: number;
     name: string;
@@ -37,7 +41,6 @@ interface PageProps {
     movements: StockMovement[];
 }
 
-// Breadcrumbs
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Manajemen Stok',
@@ -67,7 +70,9 @@ export default function Stock() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manajemen Stok" />
 
+            {/* Layout Halaman */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 p-4">
+
                 <div className="lg:col-span-1">
                     <Card>
                         <CardHeader>
@@ -95,7 +100,7 @@ export default function Stock() {
                                     </Select>
                                     <InputError message={errors.product_id} className="mt-2" />
                                 </div>
-
+                                {/* Input Tipe */}
                                 <div>
                                     <Label htmlFor="type">Tipe</Label>
                                     <Select value={data.type} onValueChange={(value) => setData('type', value as 'in' | 'out')}>
@@ -109,7 +114,7 @@ export default function Stock() {
                                     </Select>
                                     <InputError message={errors.type} className="mt-2" />
                                 </div>
-
+                                {/* Input Kuantitas */}
                                 <div>
                                     <Label htmlFor="quantity">Kuantitas</Label>
                                     <Input
@@ -121,7 +126,7 @@ export default function Stock() {
                                     />
                                     <InputError message={errors.quantity} className="mt-2" />
                                 </div>
-
+                                {/* Input Catatan */}
                                 <div>
                                     <Label htmlFor="notes">Catatan (Opsional)</Label>
                                     <Input
@@ -132,7 +137,7 @@ export default function Stock() {
                                     />
                                     <InputError message={errors.notes} className="mt-2" />
                                 </div>
-
+                                {/* Tombol Submit */}
                                 <Button type="submit" disabled={processing}>
                                     {processing ? 'Memproses...' : 'Simpan'}
                                 </Button>
@@ -143,47 +148,7 @@ export default function Stock() {
                 </div>
 
                 <div className="lg:col-span-2">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Riwayat Pergerakan Stok</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
-                                <thead className="bg-gray-50 dark:bg-neutral-800">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left">Waktu</th>
-                                        <th className="px-6 py-3 text-left">Produk</th>
-                                        <th className="px-6 py-3 text-left">Tipe</th>
-                                        <th className="px-6 py-3 text-left">Kuantitas</th>
-                                        <th className="px-6 py-3 text-left">Catatan</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {movements.length > 0 ? (
-                                        movements.map(move => (
-                                            <tr key={move.id}>
-                                                <td className="px-6 py-4">
-                                                    {new Date(move.created_at).toLocaleString('id-ID')}
-                                                </td>
-                                                <td className="px-6 py-4">{move.product?.name || 'Produk Dihapus'}</td>
-                                                <td className={`px-6 py-4 ${move.type === 'in' ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {move.type === 'in' ? 'Masuk' : 'Keluar'}
-                                                </td>
-                                                <td className="px-6 py-4">{move.quantity}</td>
-                                                <td className="px-6 py-4">{move.notes}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={5} className="px-6 py-4 text-center">
-                                                Belum ada pergerakan stok.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </CardContent>
-                    </Card>
+                    <MovementList movements={movements} />
                 </div>
 
             </div>
