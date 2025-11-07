@@ -1,5 +1,3 @@
-// resources/js/pages/Dashboard.tsx
-
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
