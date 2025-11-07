@@ -1,5 +1,3 @@
-// resources/js/pages/Products.tsx
-
 import AppLayout from '@/layouts/app-layout';
 import productsRoute from '@/routes/products';
 import { type BreadcrumbItem } from '@/types';

@@ -1,5 +1,3 @@
-// resources/js/pages/Stock.tsx
-
 import AppLayout from '@/layouts/app-layout';
 import stockRoute from '@/routes/stock';
 import { type BreadcrumbItem } from '@/types';
@@ -14,10 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputError } from '@/components/ui/input-error';
 
-// Impor komponen list baru kita
 import { MovementList } from './stocks/StockList';
 
-// --- Tipe Data ---
 type Product = {
     id: number;
     name: string;

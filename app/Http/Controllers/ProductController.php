@@ -66,7 +66,6 @@ class ProductController extends Controller
 
         $imagePath = $product->image;
 
-        // Jika upload baru
         if ($request->hasFile('image')) {
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
@@ -74,7 +73,6 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('products', 'public');
         }
 
-        // Jika ingin menghapus gambar tanpa upload baru
         if ($request->boolean('clear_image')) {
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);

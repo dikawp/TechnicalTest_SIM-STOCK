@@ -1,4 +1,3 @@
-import { Head, usePage, useForm, router } from '@inertiajs/react';
 import { EditModal } from './EditModal';
 import { DeleteDialog } from '@/components/DeleteDialog';
 import productsRoute from '@/routes/products';

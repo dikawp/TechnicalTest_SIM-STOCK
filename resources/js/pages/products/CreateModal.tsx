@@ -47,7 +47,6 @@ export function CreateModal() {
         });
     };
 
-    // Reset ketika modal ditutup
     useEffect(() => {
         if (!isCreateModalOpen) {
             createReset();

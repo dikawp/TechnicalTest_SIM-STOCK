@@ -40,7 +40,7 @@ export function EditModal({ product }: EditModalProps) {
     const {
         data: editData,
         setData: setEditData,
-        post: editPost, // gunakan post() agar forceFormData bekerja konsisten
+        post: editPost,
         processing: editProcessing,
         errors: editErrors,
         reset: editReset,
@@ -67,7 +67,6 @@ export function EditModal({ product }: EditModalProps) {
         });
     };
 
-    // Reset data tiap kali modal ditutup
     useEffect(() => {
         if (!isEditModalOpen) {
             editReset();
